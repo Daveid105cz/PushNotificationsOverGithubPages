@@ -35,7 +35,7 @@ function subscribeForPush()
     var publicKey = urlB64ToUint8Array(applicationServerPublicKey);
     swRegistration.pushManager.subscribe({
         userVisibleOnly: true,
-        applicationServerKey: applicationServerKey
+        applicationServerKey: publicKey
       })
       .then(function(subscription) {
         console.log('User is subscribed.');
