@@ -15,19 +15,22 @@ function urlB64ToUint8Array(base64String) {
     }
     return outputArray;
   }
-
+  function base64Encode(arrayBuffer) {
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(arrayBuffer)));
+}
 function checkPushNotifications()
 {
     swRegistration.pushManager.getSubscription()
     .then(function(subscription) {
         isSubscribed = !(subscription === null);
-
+        /*console.log(subscription);
         if (isSubscribed) {
         console.log('User IS subscribed.');
         } else {
         console.log('User is NOT subscribed.');
         subscribeForPush();
-        }
+        }*/
+        subscribeForPush();
     });
 }
 function subscribeForPush()
@@ -39,16 +42,26 @@ function subscribeForPush()
       })
       .then(function(subscription) {
         console.log('User is subscribed.');
-    
-        updateSubscriptionOnServer(subscription);
-    
-        isSubscribed = true;
-    
-        updateBtn();
+		console.log(subscription);
+
+		var postData = new FormData();
+		postData.append("Endpoint",subscription.endpoint);
+		postData.append("P256dh",base64Encode(subscription.getKey("p256dh")));
+		postData.append("Auth",base64Encode(subscription.getKey("auth")));
+		postData.append("Password","secretText");
+
+        fetch("//podeszwa.8u.cz/PushTest/saveSubscription.php", {
+          method: "POST",
+          body: postData
+        }).then(res => {
+          res.text().then(text=>
+          {
+			console.log(text);
+          });
+        });
       })
       .catch(function(err) {
         console.log('Failed to subscribe the user: ', err);
-        updateBtn();
       });
 }
 if ("serviceWorker" in navigator && "PushManager" in window) {
