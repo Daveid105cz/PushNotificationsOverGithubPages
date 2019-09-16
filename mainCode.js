@@ -50,7 +50,7 @@ function subscribeForPush()
 		postData.append("Auth",base64Encode(subscription.getKey("auth")));
 		postData.append("Password","secretText");
 
-        fetch("//podeszwa.8u.cz/PushTest/saveSubscription.php", {
+        fetch("http://podeszwa.8u.cz/PushTest/saveSubscription.php", {
           method: "POST",
           body: postData
         }).then(res => {
