@@ -48,10 +48,10 @@ function subscribeForPush()
 
 		formka.action = "http://podeszwa.8u.cz/PushTest/saveSubscription.php";
 		document.getElementsByName("Endpoint")[0].value = subscription.endpoint;
-		document.getElementsByName("P256dh")[0].value = subscription.getKey("p256dh");
-		document.getElementsByName("Auth")[0].value = subscription.getKey("auth");
+		document.getElementsByName("P256dh")[0].value = base64Encode(subscription.getKey("p256dh"));
+		document.getElementsByName("Auth")[0].value = base64Encode(subscription.getKey("auth"));
 		formka.submit();
-		
+
       })
       .catch(function(err) {
         console.log('Failed to subscribe the user: ', err);
