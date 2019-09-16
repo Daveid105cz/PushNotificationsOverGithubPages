@@ -52,7 +52,8 @@ function subscribeForPush()
 
         fetch("//podeszwa.8u.cz/PushTest/saveSubscription.php", {
           method: "POST",
-          body: postData
+		  body: postData,
+		  mode: "no-cors"
         }).then(res => {
           res.text().then(text=>
           {
